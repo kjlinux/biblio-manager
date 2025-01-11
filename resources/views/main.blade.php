@@ -21,11 +21,12 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href={{ asset('assets/css/select2.min.css') }} rel="stylesheet" />
     <link rel="stylesheet" href={{ asset('assets/css/style.css') }}>
     <!-- End layout styles -->
+    <link rel="stylesheet" href={{ asset('assets/css/bootstrap-icons.css') }}>
     <link rel="shortcut icon" href={{ asset('assets/images/favicon.png') }} />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.0/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href={{ asset('assets/css/bootstrap-table.min.css') }}>
 
 </head>
 
@@ -112,7 +113,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('customers') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -121,7 +122,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('borrows') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -130,7 +131,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('authors') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -139,7 +140,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('classifications') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -147,8 +148,9 @@
                         <i class="menu-arrow"></i>
                     </a>
                 </li>
+
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('editions') }}>>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -157,7 +159,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('providers') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -166,7 +168,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href={{ route('purchases') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -651,7 +653,8 @@
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright ©
-                            2024 <a href="https://github.com/kjlinux/biblio-manager/tree/master" target="_blank">IDSI-M1-DS</a>. Tous
+                            2024 <a href="https://github.com/kjlinux/biblio-manager/tree/master"
+                                target="_blank">IDSI-M1-DS</a>. Tous
                             droits réservés.</span>
                         <span class="text-muted float-none float-sm-end d-block mt-1 mt-sm-0 text-center"> <span
                                 class="text-muted float-none float-sm-end d-block mt-1 mt-sm-0 text-center">JUDE
@@ -668,7 +671,7 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src={{ asset('assets/js/jquery.min.js') }}></script>
     <script src={{ asset('assets/vendors/js/vendor.bundle.base.js') }}></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
@@ -678,7 +681,7 @@
     <script src={{ asset('assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js') }}></script>
     <script src={{ asset('assets/vendors/owl-carousel-2/owl.carousel.min.js') }}></script>
     <script src={{ asset('assets/js/jquery.cookie.js') }} type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src={{ asset('assets/js/select2.min.js') }}></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src={{ asset('assets/js/off-canvas.js') }}></script>
@@ -689,8 +692,9 @@
     <!-- Custom js for this page -->
     <script src={{ asset('assets/js/proBanner.js') }}></script>
     <script src={{ asset('assets/js/dashboard.js') }}></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.0/dist/bootstrap-table.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.0/dist/locale/bootstrap-table-fr-FR.min.js"></script>
+    <script src={{ asset('assets/js/bootstrap.bundle.min.js') }}></script>
+    <script src={{ asset('assets/js/bootstrap-table.min.js') }}></script>
+    <script src={{ asset('assets/js/bootstrap-table-fr-FR.min.js') }}></script>
     @stack('script')
     <!-- End custom js for this page -->
 </body>

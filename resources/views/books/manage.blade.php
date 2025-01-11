@@ -148,19 +148,22 @@
                      <h4 class="card-title">Liste des livres</h4>
                      <button type="button" class="btn btn-success btn-lg btn-block" data-bs-toggle="modal"
                          data-bs-target="#staticBackdrop">
-                         <i class="mdi mdi-account"></i>Ajouter un livre</button>
+                         <i class="mdi mdi-plus"></i>Ajouter un livre</button>
                      {{-- <p class="card-description"> <button type="button" class="btn btn-success btn-lg btn-block">
                              <i class="mdi mdi-account"></i>Ajouter un livre</button>
                      </p> --}}
                      <div class="table-responsive">
-                         <table class="table table-striped" data-toggle="table" data-pagination="true" data-search="true">
+                         <table id="table" class="table table-striped" data-toggle="table" data-pagination="true"
+                             data-search="true" data-detail-formatter="detailFormatter">
                              <thead>
                                  <tr>
-                                     <th> User </th>
-                                     <th> First name </th>
-                                     <th> Progress </th>
-                                     <th> Amount </th>
-                                     <th> Deadline </th>
+                                     <th> ISBN </th>
+                                     <th data-sortable="true"> TITRE </th>
+                                     <th> PRIX </th>
+                                     <th> CLASSIFICATION </th>
+                                     <th> EDITION </th>
+                                     <th> AUTEURS </th>
+                                     <th> ACTIONS </th>
                                  </tr>
                              </thead>
                              <tbody>
@@ -177,6 +180,8 @@
                                      </td>
                                      <td> $ 77.99 </td>
                                      <td> May 15, 2015 </td>
+                                     <td> Shakespeare </td>
+                                     <td> </td>
                                  </tr>
                                  <tr>
                                      <td class="py-1">
@@ -190,77 +195,9 @@
                                          </div>
                                      </td>
                                      <td> $245.30 </td>
-                                     <td> July 1, 2015 </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-3.png" alt="image" />
-                                     </td>
-                                     <td> John Richards </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-warning" role="progressbar" style="width: 90%"
-                                                 aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $138.00 </td>
-                                     <td> Apr 12, 2015 </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-4.png" alt="image" />
-                                     </td>
-                                     <td> Peter Meggik </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-primary" role="progressbar" style="width: 50%"
-                                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $ 77.99 </td>
                                      <td> May 15, 2015 </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                                     </td>
-                                     <td> Edward </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-danger" role="progressbar" style="width: 35%"
-                                                 aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $ 160.25 </td>
-                                     <td> May 03, 2015 </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                                     </td>
-                                     <td> John Doe </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-info" role="progressbar" style="width: 65%"
-                                                 aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $ 123.21 </td>
-                                     <td> April 05, 2015 </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-3.png" alt="image" />
-                                     </td>
-                                     <td> Henry Tom </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-warning" role="progressbar" style="width: 20%"
-                                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $ 150.00 </td>
-                                     <td> June 16, 2015 </td>
+                                     <td> Albert </td>
+                                     <td> </td>
                                  </tr>
                              </tbody>
                          </table>
@@ -290,7 +227,7 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">ISBN</label>
                                              <div class="col-sm-9">
-                                                 <input type="text" class="form-control" />
+                                                 <input type="text" name="isbn" class="form-control" />
                                              </div>
                                          </div>
                                      </div>
@@ -298,7 +235,7 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">TITRE</label>
                                              <div class="col-sm-9">
-                                                 <input type="text" class="form-control" />
+                                                 <input type="text" name="titre" class="form-control" />
                                              </div>
                                          </div>
                                      </div>
@@ -308,7 +245,7 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">PRIX</label>
                                              <div class="col-sm-9">
-                                                 <input class="form-control" placeholder="FCFA" />
+                                                 <input class="form-control" name="prix" placeholder="FCFA" />
                                              </div>
                                          </div>
                                      </div>
@@ -316,7 +253,7 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">CLASSIFICATION</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-single" name="state"
+                                                 <select class="js-example-basic-single" name="classification"
                                                      style="width:100%">
                                                      <option value="AL">Alabama</option>
                                                      <option value="WY">Wyoming</option>
@@ -331,9 +268,10 @@
                                  <div class="row">
                                      <div class="col-md-6">
                                          <div class="form-group row">
-                                             <label class="col-sm-3 col-form-label">EDITIONS</label>
+                                             <label class="col-sm-3 col-form-label">EDITION</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-single" style="width:100%">
+                                                 <select class="js-example-basic-single" name="edition"
+                                                     style="width:100%">
                                                      <option value="AL">Alabama</option>
                                                      <option value="WY">Wyoming</option>
                                                      <option value="AM">America</option>
@@ -347,7 +285,7 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">AUTEURS(S)</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-multiple" name="states[]"
+                                                 <select class="js-example-basic-multiple" name="auteurs[]"
                                                      multiple="multiple" style="width:100%">
                                                      <option value="AL">Alabama</option>
                                                      <option value="WY">Wyoming</option>
@@ -370,6 +308,105 @@
              </div>
          </div>
      </div>
+     <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Modification de livre</h1>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+                     <div class="card">
+                         <div class="card-body">
+                             <form class="form-sample">
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group row">
+                                             <label class="col-sm-3 col-form-label">ISBN</label>
+                                             <div class="col-sm-9">
+                                                 <input type="text" name="isbn_e" class="form-control" />
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-6">
+                                         <div class="form-group row">
+                                             <label class="col-sm-3 col-form-label">TITRE</label>
+                                             <div class="col-sm-9">
+                                                 <input type="text" name="titre_e" class="form-control" />
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group row">
+                                             <label class="col-sm-3 col-form-label">PRIX</label>
+                                             <div class="col-sm-9">
+                                                 <input class="form-control" name="prix_e" placeholder="FCFA" />
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-6">
+                                         <div class="form-group row">
+                                             <label class="col-sm-3 col-form-label">CLASSIFICATION</label>
+                                             <div class="col-sm-9">
+                                                 <select class="js-example-basic-single" name="classification_e"
+                                                     style="width:100%">
+                                                     <option value="AL">Alabama</option>
+                                                     <option value="WY">Wyoming</option>
+                                                     <option value="AM">America</option>
+                                                     <option value="CA">Canada</option>
+                                                     <option value="RU">Russia</option>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group row">
+                                             <label class="col-sm-3 col-form-label">EDITION</label>
+                                             <div class="col-sm-9">
+                                                 <select class="js-example-basic-single" name="edition_e"
+                                                     style="width:100%">
+                                                     <option value="AL">Alabama</option>
+                                                     <option value="WY">Wyoming</option>
+                                                     <option value="AM">America</option>
+                                                     <option value="CA">Canada</option>
+                                                     <option value="RU">Russia</option>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-6">
+                                         <div class="form-group row">
+                                             <label class="col-sm-3 col-form-label">AUTEURS(S)</label>
+                                             <div class="col-sm-9">
+                                                 <select class="js-example-basic-multiple" name="auteurs_e[]"
+                                                     multiple="multiple" style="width:100%">
+                                                     <option value="AL">Alabama</option>
+                                                     <option value="WY">Wyoming</option>
+                                                     <option value="AM">America</option>
+                                                     <option value="CA">Canada</option>
+                                                     <option value="RU">Russia</option>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <input type="hidden" name="id" value="">
+                                 </div>
+                             </form>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
+                     <button type="button" class="btn btn-inverse-primary">Valider</button>
+                 </div>
+             </div>
+         </div>
+     </div>
  @endsection
  @push('script')
      <script>
@@ -381,5 +418,99 @@
                  dropdownParent: $('#staticBackdrop')
              });
          });
+
+         var $table = $('#table')
+
+         function detailFormatter(index, row) {
+             var html = []
+             $.each(row, function(key, value) {
+                 html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+             })
+             return html.join('')
+         }
+
+         function operateFormatter(value, row, index) {
+             return [
+                 '<button type="button" id="edit" class="btn btn-inverse-primary btn-icon" style="margin-right: 1em" title="modifier" data-bs-toggle="modal" data-bs-target="#editModal">',
+                 '<i class="mdi mdi-pencil"></i>',
+                 '</button>',
+                 '<button type="button" id="delete" class="btn btn-inverse-danger btn-icon" title="supprimer">',
+                 '<i class="mdi mdi-trash-can-outline"></i>',
+                 '</button>',
+             ].join('')
+         }
+
+         window.operateEvents = {
+             'click #edit': function(e, value, row, index) {
+                 alert('You click like action, row: ' + JSON.stringify(row))
+             },
+             'click #delete': function(e, value, row, index) {
+                 $table.bootstrapTable('remove', {
+                     field: 'id',
+                     values: [row.id]
+                 })
+             }
+         }
+
+         function initTable() {
+             $table.bootstrapTable('destroy').bootstrapTable({
+                 //  height: 550,
+                 //  locale: $('#locale').val(),
+                 columns: [{
+                         title: 'ISBN',
+                         field: 'isbn',
+                         align: 'center',
+                         valign: 'middle',
+                         sortable: true,
+                         //  footerFormatter: totalTextFormatter
+                     },
+                     {
+                         title: 'TITRE',
+                         field: 'titre',
+                         align: 'center'
+                     },
+                     {
+                         field: 'prix',
+                         title: 'PRIX',
+                         sortable: true,
+                         //  footerFormatter: totalNameFormatter,
+                         align: 'center'
+                     },
+                     {
+                         field: 'classification',
+                         title: 'CLASSIFICATION',
+                         sortable: true,
+                         align: 'center',
+                         //  footerFormatter: totalPriceFormatter
+                     },
+                     {
+                         field: 'edition',
+                         title: 'EDITION',
+                         sortable: true,
+                         align: 'center',
+                         //  footerFormatter: totalPriceFormatter
+                     },
+                     {
+                         field: 'auteurs',
+                         title: 'AUTEURS',
+                         sortable: true,
+                         align: 'center',
+                         //  footerFormatter: totalPriceFormatter
+                     },
+                     {
+                         field: 'actions',
+                         title: 'ACTIONS',
+                         align: 'center',
+                         clickToSelect: false,
+                         events: window.operateEvents,
+                         formatter: operateFormatter
+                     }
+                 ]
+             })
+         }
+
+         $(function() {
+             initTable()
+         })
      </script>
  @endpush
