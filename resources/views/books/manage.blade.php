@@ -157,8 +157,9 @@
                              data-search="true" data-detail-formatter="detailFormatter">
                              <thead>
                                  <tr>
+                                     <th> ID </th>
                                      <th> ISBN </th>
-                                     <th data-sortable="true"> TITRE </th>
+                                     <th> TITRE </th>
                                      <th> PRIX </th>
                                      <th> CLASSIFICATION </th>
                                      <th> EDITION </th>
@@ -167,38 +168,24 @@
                                  </tr>
                              </thead>
                              <tbody>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                                     </td>
-                                     <td> Herman Beck </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $ 77.99 </td>
-                                     <td> May 15, 2015 </td>
-                                     <td> Shakespeare </td>
-                                     <td> </td>
-                                 </tr>
-                                 <tr>
-                                     <td class="py-1">
-                                         <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                                     </td>
-                                     <td> Messsy Adam </td>
-                                     <td>
-                                         <div class="progress">
-                                             <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
-                                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                         </div>
-                                     </td>
-                                     <td> $245.30 </td>
-                                     <td> May 15, 2015 </td>
-                                     <td> Albert </td>
-                                     <td> </td>
-                                 </tr>
+                                 @foreach ($books as $book)
+                                     <tr>
+                                         <td>{{ $book['id'] }}</td>
+                                         <td>{{ $book['isbn'] }}</td>
+                                         <td>{{ $book['titre'] }}</td>
+                                         <td>{{ $book['prix'] }} €</td>
+                                         <td>{{ $book['classification'] }}</td>
+                                         <td>{{ $book['edition'] }}</td>
+                                         <td>
+                                             @if (empty($book['authors']))
+                                                 Aucun auteur
+                                             @else
+                                                 {{ implode(', ', $book['authors']) }}
+                                             @endif
+                                         </td>
+                                         <td> </td>
+                                     </tr>
+                                 @endforeach
                              </tbody>
                          </table>
                      </div>
@@ -221,7 +208,8 @@
                  <div class="modal-body">
                      <div class="card">
                          <div class="card-body">
-                             <form class="form-sample">
+                             <form class="form-sample" id="store">
+                                 @csrf
                                  <div class="row">
                                      <div class="col-md-6">
                                          <div class="form-group row">
@@ -245,7 +233,8 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">PRIX</label>
                                              <div class="col-sm-9">
-                                                 <input class="form-control" name="prix" placeholder="FCFA" />
+                                                 <input class="form-control" name="prix" type="number"
+                                                     placeholder="FCFA" />
                                              </div>
                                          </div>
                                      </div>
@@ -253,13 +242,12 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">CLASSIFICATION</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-single" name="classification"
-                                                     style="width:100%">
-                                                     <option value="AL">Alabama</option>
-                                                     <option value="WY">Wyoming</option>
-                                                     <option value="AM">America</option>
-                                                     <option value="CA">Canada</option>
-                                                     <option value="RU">Russia</option>
+                                                 <select class="js-example-basic-single" id="p_c"
+                                                     name="classification" style="width:100%">
+                                                     @foreach ($classifications as $classification)
+                                                         <option value="{{ $classification->id }}">
+                                                             {{ $classification->nom_class }}</option>
+                                                     @endforeach
                                                  </select>
                                              </div>
                                          </div>
@@ -270,13 +258,12 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">EDITION</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-single" name="edition"
+                                                 <select class="js-example-basic-single" id="p_e" name="edition"
                                                      style="width:100%">
-                                                     <option value="AL">Alabama</option>
-                                                     <option value="WY">Wyoming</option>
-                                                     <option value="AM">America</option>
-                                                     <option value="CA">Canada</option>
-                                                     <option value="RU">Russia</option>
+                                                     @foreach ($editions as $edition)
+                                                         <option value="{{ $edition->id }}">
+                                                             {{ $edition->titre_ed }}</option>
+                                                     @endforeach
                                                  </select>
                                              </div>
                                          </div>
@@ -285,25 +272,24 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">AUTEURS(S)</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-multiple" name="auteurs[]"
-                                                     multiple="multiple" style="width:100%">
-                                                     <option value="AL">Alabama</option>
-                                                     <option value="WY">Wyoming</option>
-                                                     <option value="AM">America</option>
-                                                     <option value="CA">Canada</option>
-                                                     <option value="RU">Russia</option>
+                                                 <select class="js-example-basic-multiple" id="p_a"
+                                                     name="auteurs[]" multiple="multiple" style="width:100%">
+                                                     @foreach ($authors as $author)
+                                                         <option value="{{ $author['id'] }}">{{ $author['nom'] }}
+                                                         </option>
+                                                     @endforeach
                                                  </select>
                                              </div>
                                          </div>
                                      </div>
                                  </div>
-                             </form>
                          </div>
                      </div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                     <button type="button" class="btn btn-inverse-success">Valider</button>
+                     <button type="submit" id="valider_store" class="btn btn-inverse-success">Valider</button>
+                     </form>
                  </div>
              </div>
          </div>
@@ -319,7 +305,10 @@
                  <div class="modal-body">
                      <div class="card">
                          <div class="card-body">
-                             <form class="form-sample">
+                             <form class="form-sample" id="edit">
+                                 @csrf
+                                 @method('PUT')
+                                 <input type="hidden" id="id_edit" name="id_edit" />
                                  <div class="row">
                                      <div class="col-md-6">
                                          <div class="form-group row">
@@ -343,7 +332,8 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">PRIX</label>
                                              <div class="col-sm-9">
-                                                 <input class="form-control" name="prix_e" placeholder="FCFA" />
+                                                 <input class="form-control" name="prix_e" type="number"
+                                                     placeholder="FCFA" />
                                              </div>
                                          </div>
                                      </div>
@@ -351,13 +341,12 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">CLASSIFICATION</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-single" name="classification_e"
-                                                     style="width:100%">
-                                                     <option value="AL">Alabama</option>
-                                                     <option value="WY">Wyoming</option>
-                                                     <option value="AM">America</option>
-                                                     <option value="CA">Canada</option>
-                                                     <option value="RU">Russia</option>
+                                                 <select class="js-example-basic-single" id="e_c"
+                                                     name="classification_e" style="width:100%">
+                                                     @foreach ($classifications as $classification)
+                                                         <option value="{{ $classification->id }}">
+                                                             {{ $classification->nom_class }}</option>
+                                                     @endforeach
                                                  </select>
                                              </div>
                                          </div>
@@ -368,13 +357,12 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">EDITION</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-single" name="edition_e"
+                                                 <select class="js-example-basic-single" id="e_e" name="edition_e"
                                                      style="width:100%">
-                                                     <option value="AL">Alabama</option>
-                                                     <option value="WY">Wyoming</option>
-                                                     <option value="AM">America</option>
-                                                     <option value="CA">Canada</option>
-                                                     <option value="RU">Russia</option>
+                                                     @foreach ($editions as $edition)
+                                                         <option value="{{ $edition->id }}">
+                                                             {{ $edition->titre_ed }}</option>
+                                                     @endforeach
                                                  </select>
                                              </div>
                                          </div>
@@ -383,26 +371,24 @@
                                          <div class="form-group row">
                                              <label class="col-sm-3 col-form-label">AUTEURS(S)</label>
                                              <div class="col-sm-9">
-                                                 <select class="js-example-basic-multiple" name="auteurs_e[]"
-                                                     multiple="multiple" style="width:100%">
-                                                     <option value="AL">Alabama</option>
-                                                     <option value="WY">Wyoming</option>
-                                                     <option value="AM">America</option>
-                                                     <option value="CA">Canada</option>
-                                                     <option value="RU">Russia</option>
+                                                 <select class="js-example-basic-multiple" id="e_a"
+                                                     name="auteurs_e[]" multiple="multiple" style="width:100%">
+                                                     @foreach ($authors as $author)
+                                                         <option value="{{ $author['id'] }}">{{ $author['nom'] }}
+                                                         </option>
+                                                     @endforeach
                                                  </select>
                                              </div>
                                          </div>
                                      </div>
-                                     <input type="hidden" name="id" value="">
                                  </div>
-                             </form>
                          </div>
                      </div>
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                     <button type="button" class="btn btn-inverse-primary">Valider</button>
+                     <button type="submit" id="valider_edit" class="btn btn-inverse-primary">Valider</button>
+                     </form>
                  </div>
              </div>
          </div>
@@ -411,11 +397,102 @@
  @push('script')
      <script>
          $(document).ready(function() {
-             $('.js-example-basic-single').select2({
+             $('#p_c').select2({
                  dropdownParent: $('#staticBackdrop')
              });
-             $('.js-example-basic-multiple').select2({
+             $('#p_e').select2({
                  dropdownParent: $('#staticBackdrop')
+             });
+             $('#p_a').select2({
+                 dropdownParent: $('#staticBackdrop')
+             });
+             $('#e_c').select2({
+                 dropdownParent: $('#editModal')
+             });
+             $('#e_e').select2({
+                 dropdownParent: $('#editModal')
+             });
+             $('#e_a').select2({
+                 dropdownParent: $('#editModal')
+             });
+         });
+
+         //  $('#valider_store').click(function() {
+         $('#store').submit(function(e) {
+             e.preventDefault();
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                 }
+             });
+             $.ajax({
+                 method: 'POST',
+                 url: "{{ route('books.store') }}",
+                 data: $(this).serialize(),
+                 success: function(response) {
+                     const Toast = Swal.mixin({
+                         toast: true,
+                         position: "top-end",
+                         showConfirmButton: false,
+                         timer: 4000,
+                         timerProgressBar: true,
+                     });
+                     Toast.fire({
+                         icon: "success",
+                         title: "Enregistrement effectué."
+                     });
+                     $('select').val(null).trigger('change');
+                     location.reload(true);
+                 },
+                 error: function(xhr, status, error) {
+                     Swal.fire({
+                         title: "Erreur lors de l'exécution",
+                         icon: "error",
+                         showConfirmButton: false,
+                         timer: 500
+                     });
+                 },
+             });
+         });
+         //  });
+
+         $('#edit').submit(function(e) {
+             e.preventDefault();
+             var bookId = $('#id_edit').val();
+
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                 }
+             });
+
+             $.ajax({
+                 method: 'PUT',
+                 url: '/books/' + bookId,
+                 data: $(this).serialize(),
+                 success: function(response) {
+                     const Toast = Swal.mixin({
+                         toast: true,
+                         position: "top-end",
+                         showConfirmButton: false,
+                         timer: 4000,
+                         timerProgressBar: true,
+                     });
+                     Toast.fire({
+                         icon: "success",
+                         title: "Mise à jour effectuée."
+                     });
+                     $('select').val(null).trigger('change');
+                     location.reload(true);
+                 },
+                 error: function(xhr, status, error) {
+                     Swal.fire({
+                         title: "Erreur lors de la mise à jour",
+                         icon: "error",
+                         showConfirmButton: false,
+                         timer: 1500
+                     });
+                 }
              });
          });
 
@@ -440,15 +517,82 @@
              ].join('')
          }
 
+         function edit(id) {
+             $.ajax({
+                 method: 'GET',
+                 url: '/books/' + id + '/edit',
+                 success: function(response) {
+                     var book = response.book;
+
+                     $('#id_edit').val(book.id);
+                     $('#edit input[name="isbn_e"]').val(book.isbn);
+                     $('#edit input[name="titre_e"]').val(book.titre);
+                     $('#edit input[name="prix_e"]').val(book.prix);
+                     $('#edit select[name="classification_e"]').val(book.classification_id).trigger('change');
+                     $('#edit select[name="edition_e"]').val(book.edition_id).trigger('change');
+
+                     var authorIds = book.authors.map(function(author) {
+                         return author.id;
+                     });
+                     $('#edit select[name="auteurs_e[]"]').val(authorIds).trigger('change');
+
+                     $('#editModal').modal('show');
+                     //  console.log($('#id_edit').val());
+                 },
+                 error: function(xhr, status, error) {
+                     Swal.fire({
+                         title: "Erreur lors de la récupération des données",
+                         icon: "error",
+                         showConfirmButton: false,
+                         timer: 1500
+                     });
+                 }
+             });
+         }
+
+         function deleteBook(id) {
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                 }
+             });
+
+             $.ajax({
+                 method: 'DELETE',
+                 url: '/books/' + id,
+                 success: function(response) {
+                     const Toast = Swal.mixin({
+                         toast: true,
+                         position: "top-end",
+                         showConfirmButton: false,
+                         timer: 3000,
+                         timerProgressBar: true,
+                     });
+                     Toast.fire({
+                         icon: "success",
+                         title: "Suppression effectuée."
+                     });
+                     location.reload(true);
+                 },
+                 error: function(xhr, status, error) {
+                     Swal.fire({
+                         title: "Erreur lors de la suppression",
+                         icon: "error",
+                         showConfirmButton: false,
+                         timer: 1500
+                     });
+                 }
+             });
+         }
+
          window.operateEvents = {
              'click #edit': function(e, value, row, index) {
-                 alert('You click like action, row: ' + JSON.stringify(row))
+                 e.preventDefault();
+                 edit(row.id)
              },
              'click #delete': function(e, value, row, index) {
-                 $table.bootstrapTable('remove', {
-                     field: 'id',
-                     values: [row.id]
-                 })
+                 e.preventDefault();
+                 deleteBook(row.id)
              }
          }
 
@@ -457,6 +601,12 @@
                  //  height: 550,
                  //  locale: $('#locale').val(),
                  columns: [{
+                         title: 'ID',
+                         field: 'id',
+                         align: 'center',
+                         visible: false
+                     },
+                     {
                          title: 'ISBN',
                          field: 'isbn',
                          align: 'center',
@@ -467,7 +617,7 @@
                      {
                          title: 'TITRE',
                          field: 'titre',
-                         align: 'center'
+                         align: 'center',
                      },
                      {
                          field: 'prix',

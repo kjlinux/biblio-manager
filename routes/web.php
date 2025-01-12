@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +40,9 @@ Route::get('/providers', function () {
 Route::get('/purchases', function () {
     return view('purchases.manage');
 })->name('purchases');
+
+Route::resource('books', BookController::class)->except(['create', 'show']);
+Route::resource('customers', CustomerController::class)->except(['create', 'show']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

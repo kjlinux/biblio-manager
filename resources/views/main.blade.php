@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>MyBiblio</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href={{ asset('assets/vendors/ti-icons/css/themify-icons.css') }}>
@@ -104,7 +105,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('books') }}>
+                    <a class="nav-link" href={{ route('books.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -672,6 +673,7 @@
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src={{ asset('assets/js/jquery.min.js') }}></script>
+
     <script src={{ asset('assets/vendors/js/vendor.bundle.base.js') }}></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
@@ -695,6 +697,14 @@
     <script src={{ asset('assets/js/bootstrap.bundle.min.js') }}></script>
     <script src={{ asset('assets/js/bootstrap-table.min.js') }}></script>
     <script src={{ asset('assets/js/bootstrap-table-fr-FR.min.js') }}></script>
+    <script src={{ asset('assets/js/sweetalert2@11.js') }}></script>
+    {{-- <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script> --}}
     @stack('script')
     <!-- End custom js for this page -->
 </body>

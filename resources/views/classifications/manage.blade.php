@@ -213,6 +213,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form class="form-sample">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -254,6 +255,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form class="form-sample">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
