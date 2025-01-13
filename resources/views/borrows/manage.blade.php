@@ -1,21 +1,21 @@
 @extends('main')
 @section('layout')
-<div class="row">
-    <div class="col-xl-12 col-sm-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="d-flex align-items-center align-self-start">
-                            <h1 class="mb-0">GESTION DES EMPRUNTS</h1>
+    <div class="row">
+        <div class="col-xl-12 col-sm-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 d-flex align-items-center justify-content-center">
+                            <div class="d-flex align-items-center align-self-start">
+                                <h1 class="mb-0">GESTION DES EMPRUNTS</h1>
+                            </div>
                         </div>
                     </div>
+                    {{-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> --}}
                 </div>
-                {{-- <h6 class="text-muted font-weight-normal">2.27% Since last month</h6> --}}
             </div>
         </div>
     </div>
-</div>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -117,9 +117,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">DATE DE DEPÔT</label>
+                                            <label class="col-sm-3 col-form-label"></label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="date" name="date_depot" />
+                                                <input class="form-control" type="hidden" name="date_depot" />
                                             </div>
                                         </div>
                                     </div>
@@ -254,12 +254,21 @@
                     location.reload(true);
                 },
                 error: function(xhr, status, error) {
-                    Swal.fire({
-                        title: "Erreur lors de l'exécution",
-                        icon: "error",
-                        showConfirmButton: false,
-                        timer: 500
-                    });
+                    if (xhr.status === 400) {
+                        Swal.fire({
+                            title: "Erreur",
+                            text: xhr.responseJSON.error,
+                            icon: "error",
+                            showConfirmButton: true,
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Erreur lors de l'exécution",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 500
+                        });
+                    }
                 },
             });
         });

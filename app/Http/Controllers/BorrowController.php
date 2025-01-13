@@ -54,8 +54,21 @@ class BorrowController extends Controller
             'client' => 'required|exists:customers,id',
             'livre' => 'required|exists:books,id',
             'date_emprunt' => 'required|date',
-            'date_depot' => 'required|date',
+            'date_depot' => 'nullable|date',
         ]);
+
+        $userId = $validatedData['client'];
+
+        $borrowedBooksCount = DB::table('book_customer')
+            ->where('id_cl', $userId)
+            ->whereNull('date_depot')
+            ->count();
+
+        if ($borrowedBooksCount >= 3) {
+            return response()->json([
+                'error' => 'L\'utilisateur a déjà emprunté 3 livres et doit d\'abord les ramener.'
+            ], 400);
+        }
 
         DB::table('book_customer')->insert([
             'id_cl' => $validatedData['client'],

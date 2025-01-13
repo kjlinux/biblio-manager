@@ -20,7 +20,7 @@ return new class extends Migration
                 table: 'books'
             );
             $table->date('date_emprunt');
-            $table->date('date_depot');
+            $table->date('date_depot')->nullable();
             $table->timestamps();
         });
     }

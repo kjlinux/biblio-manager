@@ -25,7 +25,9 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $customer = Customer::create([
+        $customerCount = Customer::count() + 1;
+        Customer::create([
+            'id_cl' => 'CLI' . str_pad($customerCount, 4, '0', STR_PAD_LEFT),
             'nom_cl' => $request->nom,
             'prenom_cl' => $request->prenom,
             'adresse_cl' => $request->adresse,

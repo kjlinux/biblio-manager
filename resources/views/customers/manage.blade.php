@@ -33,6 +33,7 @@
                             <thead>
                                 <tr>
                                     <th> ID </th>
+                                    <th> IDENTIFIANT </th>
                                     <th data-sortable="true"> NOM </th>
                                     <th> PRENOM </th>
                                     <th> ADRESSE </th>
@@ -44,6 +45,7 @@
                                 @foreach ($customers as $customer)
                                     <tr>
                                         <td>{{ $customer['id'] }}</td>
+                                        <td>{{ $customer['id_cl'] }}</td>
                                         <td>{{ $customer['nom_cl'] }}</td>
                                         <td>{{ $customer['prenom_cl'] }}</td>
                                         <td>{{ $customer['adresse_cl'] }} </td>
@@ -215,7 +217,7 @@
                 },
                 error: function(xhr, status, error) {
                     Swal.fire({
-                        title: "Erreur lors de l'exécution",
+                        title: status,
                         icon: "error",
                         showConfirmButton: false,
                         timer: 500
@@ -369,6 +371,12 @@
                         valign: 'middle',
                         visible: false,
                         //  footerFormatter: totalTextFormatter
+                    },
+
+                    {
+                        title: 'IDENTIFIANT',
+                        field: 'id_cl',
+                        align: 'center'
                     },
                     {
                         title: 'NOM',

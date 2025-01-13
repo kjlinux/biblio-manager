@@ -15,6 +15,7 @@ class CustomerSeeder extends Seeder
     {
         DB::table('customers')->insert([
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Dupont',
                 'prenom_cl' => 'Jean',
                 'adresse_cl' => '123 Rue Principale, Paris',
@@ -23,6 +24,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Martin',
                 'prenom_cl' => 'Marie',
                 'adresse_cl' => '45 Avenue Victor Hugo, Lyon',
@@ -31,6 +33,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Durand',
                 'prenom_cl' => 'Sophie',
                 'adresse_cl' => '78 Boulevard Saint-Germain, Paris',
@@ -39,6 +42,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Lefevre',
                 'prenom_cl' => 'Pierre',
                 'adresse_cl' => '23 Rue de la Paix, Marseille',
@@ -47,6 +51,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Moreau',
                 'prenom_cl' => 'Lucie',
                 'adresse_cl' => '56 Avenue des Champs-Élysées, Paris',
@@ -55,6 +60,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Simon',
                 'prenom_cl' => 'Paul',
                 'adresse_cl' => '34 Rue de Rivoli, Paris',
@@ -63,6 +69,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Michel',
                 'prenom_cl' => 'Claire',
                 'adresse_cl' => '89 Rue de la Liberté, Lyon',
@@ -71,6 +78,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Bernard',
                 'prenom_cl' => 'Louis',
                 'adresse_cl' => '45 Rue de la République, Bordeaux',
@@ -79,6 +87,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Thomas',
                 'prenom_cl' => 'Julie',
                 'adresse_cl' => '67 Avenue de la Gare, Lille',
@@ -87,6 +96,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Petit',
                 'prenom_cl' => 'Nicolas',
                 'adresse_cl' => '12 Rue de la Liberté, Nantes',
@@ -95,6 +105,7 @@ class CustomerSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id_cl' => 'CLI00001',
                 'nom_cl' => 'Robert',
                 'prenom_cl' => 'Isabelle',
                 'adresse_cl' => '34 Rue de la République, Strasbourg',

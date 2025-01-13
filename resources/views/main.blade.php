@@ -207,8 +207,7 @@
                         <span class="text-muted float-none float-sm-end d-block mt-1 mt-sm-0 text-center"> <span
                                 class="text-muted float-none float-sm-end d-block mt-1 mt-sm-0 text-center">JUDE
                                 KOFFI
-                                & OUMAROU SYLLA <i class="mdi mdi-heart text-danger"></i></span> <i
-                                class="mdi mdi-heart text-danger"></i></span>
+                                & OUMAROU SYLLA </span></span>
                     </div>
                 </footer>
                 <!-- partial -->
