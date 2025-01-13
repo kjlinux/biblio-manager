@@ -165,34 +165,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                                    </td>
-                                    <td> Herman Beck </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td> $ 77.99 </td>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                                    </td>
-                                    <td> Messsy Adam </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
-                                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td> $245.30 </td>
-                                    <td> </td>
-                                </tr>
+                                @foreach ($authors as $author)
+                                    <tr>
+                                        <td>{{ $author['id'] }}</td>
+                                        <td>{{ $author['nom_aut'] }}</td>
+                                        <td>{{ $author['prenom_aut'] }}</td>
+                                        <td>{{ $author['nationalite_aut'] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -215,7 +196,8 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-sample">
+                            <form class="form-sample" id="store">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -239,18 +221,31 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">NATIONALITE</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" name="nationalite" />
+                                                <select class="js-example-basic-single" id="n_p" name="nationalite"
+                                                    style="width:100%">
+                                                    <option value="">Sélectionnez une nationalité</option>
+                                                    <option value="Française">Française</option>
+                                                    <option value="Anglaise">Anglaise</option>
+                                                    <option value="Américaine">Américaine</option>
+                                                    <option value="Russe">Russe</option>
+                                                    <option value="Tchèque">Tchèque</option>
+                                                    <option value="Canadienne">Canadienne</option>
+                                                    <option value="Japonaise">Japonaise</option>
+                                                    <option value="Chinoise">Chinoise</option>
+                                                    <option value="Allemande">Allemande</option>
+                                                    <option value="Espagnole">Espagnole</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-inverse-success">Valider</button>
+                    <button type="submit" id="valider_store" class="btn btn-inverse-success">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -266,7 +261,10 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-sample">
+                            <form class="form-sample" id="edit">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" id="id_edit" name="id_edit" />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -290,18 +288,31 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">NATIONALITE</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" name="nationalite_e" />
+                                                <select class="js-example-basic-single" id="n_e"
+                                                    name="nationalite_e" style="width:100%">
+                                                    <option value="">Sélectionnez une nationalité</option>
+                                                    <option value="Française">Française</option>
+                                                    <option value="Anglaise">Anglaise</option>
+                                                    <option value="Américaine">Américaine</option>
+                                                    <option value="Russe">Russe</option>
+                                                    <option value="Tchèque">Tchèque</option>
+                                                    <option value="Canadienne">Canadienne</option>
+                                                    <option value="Japonaise">Japonaise</option>
+                                                    <option value="Chinoise">Chinoise</option>
+                                                    <option value="Allemande">Allemande</option>
+                                                    <option value="Espagnole">Espagnole</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-inverse-primary">Valider</button>
+                    <button type="submit" id="valider_edit" class="btn btn-inverse-primary">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -310,11 +321,88 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-single').select2({
+            $('#n_p').select2({
                 dropdownParent: $('#staticBackdrop')
             });
-            $('.js-example-basic-multiple').select2({
-                dropdownParent: $('#staticBackdrop')
+            $('#n_e').select2({
+                dropdownParent: $('#editModal')
+            });
+        });
+
+        $('#store').submit(function(e) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('authors.store') }}",
+                data: $(this).serialize(),
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Enregistrement effectué."
+                    });
+                    $('select').val(null).trigger('change');
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de l'exécution",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 500
+                    });
+                },
+            });
+        });
+
+        $('#edit').submit(function(e) {
+            e.preventDefault();
+            var authorId = $('#id_edit').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+
+            $.ajax({
+                method: 'PUT',
+                url: '/authors/' + authorId,
+                data: $(this).serialize(),
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Mise à jour effectuée."
+                    });
+                    $('select').val(null).trigger('change');
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la mise à jour",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
         });
 
@@ -339,15 +427,74 @@
             ].join('')
         }
 
+        function edit(id) {
+            $.ajax({
+                method: 'GET',
+                url: '/authors/' + id + '/edit',
+                success: function(response) {
+                    var author = response.author;
+
+                    $('#id_edit').val(author.id);
+                    $('#edit input[name="nom_e"]').val(author.nom_aut);
+                    $('#edit input[name="prenom_e"]').val(author.prenom_aut);
+                    $('#edit select[name="nationalite_e"]').val(author.nationalite_aut).trigger('change');
+
+                    $('#editModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la récupération des données",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+
+        function deleteAuthor(id) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+
+            $.ajax({
+                method: 'DELETE',
+                url: '/authors/' + id,
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Suppression effectuée."
+                    });
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la suppression",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+
         window.operateEvents = {
             'click #edit': function(e, value, row, index) {
-                alert('You click like action, row: ' + JSON.stringify(row))
+                e.preventDefault();
+                edit(row.id)
             },
             'click #delete': function(e, value, row, index) {
-                $table.bootstrapTable('remove', {
-                    field: 'id',
-                    values: [row.id]
-                })
+                e.preventDefault();
+                deleteAuthor(row.id)
             }
         }
 
