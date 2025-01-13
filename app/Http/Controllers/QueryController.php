@@ -94,4 +94,9 @@ class QueryController extends Controller
 
         return view('queries.borrows', compact('borrowers', 'booksOnLoan', 'neverBorrowed', 'borrowedByCategory', 'lastBorrowDate'));
     }
+
+    public function home()
+    {
+        return view('home');
+    }
 }

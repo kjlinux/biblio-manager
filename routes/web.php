@@ -27,6 +27,7 @@ Route::resource('purchases', PurchaseController::class)->except(['create', 'show
 
 Route::get('/queries/books', [QueryController::class, 'indexBook'])->name('queries.books');
 Route::get('/queries/borrows', [QueryController::class, 'indexBorrow'])->name('queries.borrows');
+Route::get('/home', [QueryController::class, 'home'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -97,7 +97,7 @@
                     <span class="nav-link">Navigation</span>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href={{ route('home') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
@@ -192,9 +192,6 @@
                             </li>
                             <li class="nav-item"> <a class="nav-link"
                                     href={{ route('queries.borrows') }}>Emprunts</a>
-                            </li>
-                            <li class="nav-item"> <a class="nav-link"
-                                    href={{ route('queries.reporting') }}>Reporting</a>
                             </li>
                         </ul>
                     </div>

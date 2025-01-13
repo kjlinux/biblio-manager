@@ -1,5 +1,20 @@
 @extends('main')
 @section('layout')
+<div class="row">
+    <div class="col-xl-12 col-sm-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center align-self-start">
+                            <h1 class="mb-0">INTERROGATION BD</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
