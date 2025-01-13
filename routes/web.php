@@ -10,42 +10,11 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ClassificationController;
+use App\Http\Controllers\QueryController;
 
 Route::get('/', function () {
     return view('main');
 });
-
-Route::get('/books', function () {
-    return view('books.manage');
-})->name('books');
-
-Route::get('/customers', function () {
-    return view('customers.manage');
-})->name('customers');
-
-Route::get('/borrows', function () {
-    return view('borrows.manage');
-})->name('borrows');
-
-Route::get('/authors', function () {
-    return view('authors.manage');
-})->name('authors');
-
-Route::get('/classifications', function () {
-    return view('classifications.manage');
-})->name('classifications');
-
-Route::get('/editions', function () {
-    return view('editions.manage');
-})->name('editions');
-
-Route::get('/providers', function () {
-    return view('providers.manage');
-})->name('providers');
-
-Route::get('/purchases', function () {
-    return view('purchases.manage');
-})->name('purchases');
 
 Route::resource('books', BookController::class)->except(['create', 'show']);
 Route::resource('customers', CustomerController::class)->except(['create', 'show']);
@@ -55,6 +24,9 @@ Route::resource('classifications', ClassificationController::class)->except(['cr
 Route::resource('editions', EditionController::class)->except(['create', 'show']);
 Route::resource('providers', ProviderController::class)->except(['create', 'show']);
 Route::resource('purchases', PurchaseController::class)->except(['create', 'show']);
+
+Route::get('/queries/books', [QueryController::class, 'indexBook'])->name('queries.books');
+Route::get('/queries/borrows', [QueryController::class, 'indexBorrow'])->name('queries.borrows');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
