@@ -173,7 +173,7 @@
                                          <td>{{ $book['id'] }}</td>
                                          <td>{{ $book['isbn'] }}</td>
                                          <td>{{ $book['titre'] }}</td>
-                                         <td>{{ $book['prix'] }} €</td>
+                                         <td>{{ $book['prix'] }} </td>
                                          <td>{{ $book['classification'] }}</td>
                                          <td>{{ $book['edition'] }}</td>
                                          <td>

@@ -171,7 +171,7 @@
                                         <td>{{ $customer['id'] }}</td>
                                         <td>{{ $customer['nom_cl'] }}</td>
                                         <td>{{ $customer['prenom_cl'] }}</td>
-                                        <td>{{ $customer['adresse_cl'] }} €</td>
+                                        <td>{{ $customer['adresse_cl'] }} </td>
                                         <td>{{ $customer['telephone_cl'] }}</td>
                                         <td> </td>
                                     </tr>
