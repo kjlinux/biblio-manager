@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classification;
 use Illuminate\Http\Request;
+use App\Models\Classification;
+use Illuminate\Support\Facades\DB;
 
 class ClassificationController extends Controller
 {
@@ -12,7 +13,8 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        //
+        $classifications = Classification::all();
+        return view('classifications.manage', compact('classifications'));
     }
 
 
@@ -22,15 +24,17 @@ class ClassificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Classification $classification)
-    {
-        //
+        Classification::create([
+            'nom_class' => $validatedData['nom'],
+            'description_class' => $validatedData['description'],
+        ]);
+
+        return response()->json(['success' => 'Enregistrement effectué.']);
     }
 
     /**
@@ -38,7 +42,7 @@ class ClassificationController extends Controller
      */
     public function edit(Classification $classification)
     {
-        //
+        return response()->json(['classification' => $classification]);
     }
 
     /**
@@ -46,7 +50,17 @@ class ClassificationController extends Controller
      */
     public function update(Request $request, Classification $classification)
     {
-        //
+        $validatedData = $request->validate([
+            'nom_e' => 'required|string|max:255',
+            'description_e' => 'required|string|max:255',
+        ]);
+
+        $classification->update([
+            'nom_class' => $validatedData['nom_e'],
+            'description_class' => $validatedData['description_e'],
+        ]);
+
+        return response()->json(['success' => 'Mise à jour effectuée.']);
     }
 
     /**
@@ -54,6 +68,8 @@ class ClassificationController extends Controller
      */
     public function destroy(Classification $classification)
     {
-        //
+        // DB::table('books')->where('classification_id', $classification->id)->update(['classification_id' => null]);
+        $classification->delete();
+        return response()->json(['success' => 'Suppression effectuée.']);
     }
 }

@@ -164,32 +164,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                                    </td>
-                                    <td> Herman Beck </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                                    </td>
-                                    <td> Messsy Adam </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
-                                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td> </td>
-                                </tr>
+                                @foreach ($classifications as $classification)
+                                    <tr>
+                                        <td>{{ $classification['id'] }}</td>
+                                        <td>{{ $classification['nom_class'] }}</td>
+                                        <td>{{ $classification['description_class'] }}</td>
+                                        <td> </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -212,7 +194,7 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-sample">
+                            <form class="form-sample" id="store">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
@@ -232,13 +214,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-inverse-success">Valider</button>
+                    <button type="submit" id="valider_store" class="btn btn-inverse-success">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -254,8 +236,10 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-sample">
+                            <form class="form-sample" id="edit">
                                 @csrf
+                                @method('PUT')
+                                <input type="hidden" id="id_edit" name="id_edit" />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -274,13 +258,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-inverse-primary">Valider</button>
+                    <button type="submit" id="valider_edit" class="btn btn-inverse-primary">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -288,12 +272,80 @@
 @endsection
 @push('script')
     <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2({
-                dropdownParent: $('#staticBackdrop')
+        $('#store').submit(function(e) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
             });
-            $('.js-example-basic-multiple').select2({
-                dropdownParent: $('#staticBackdrop')
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('classifications.store') }}",
+                data: $(this).serialize(),
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Enregistrement effectué."
+                    });
+                    $('select').val(null).trigger('change');
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de l'exécution",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 500
+                    });
+                },
+            });
+        });
+
+        $('#edit').submit(function(e) {
+            e.preventDefault();
+            var classificationId = $('#id_edit').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+
+            $.ajax({
+                method: 'PUT',
+                url: '/classifications/' + classificationId,
+                data: $(this).serialize(),
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Mise à jour effectuée."
+                    });
+                    $('select').val(null).trigger('change');
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la mise à jour",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
         });
 
@@ -318,15 +370,74 @@
             ].join('')
         }
 
+        function edit(id) {
+            $.ajax({
+                method: 'GET',
+                url: '/classifications/' + id + '/edit',
+                success: function(response) {
+                    var classification = response.classification;
+
+                    $('#id_edit').val(classification.id);
+                    $('#edit input[name="nom_e"]').val(classification.nom_class);
+                    $('#edit input[name="description_e"]').val(classification.description_class);
+
+                    $('#editModal').modal('show');
+                    //  console.log($('#id_edit').val());
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la récupération des données",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+
+        function deleteClassification(id) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+
+            $.ajax({
+                method: 'DELETE',
+                url: '/classifications/' + id,
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Suppression effectuée."
+                    });
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la suppression",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+
         window.operateEvents = {
             'click #edit': function(e, value, row, index) {
-                alert('You click like action, row: ' + JSON.stringify(row))
+                e.preventDefault();
+                edit(row.id)
             },
             'click #delete': function(e, value, row, index) {
-                $table.bootstrapTable('remove', {
-                    field: 'id',
-                    values: [row.id]
-                })
+                e.preventDefault();
+                deleteClassification(row.id)
             }
         }
 
@@ -339,7 +450,7 @@
                         field: 'id',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true,
+                        visible: false,
                         //  footerFormatter: totalTextFormatter
                     },
                     {

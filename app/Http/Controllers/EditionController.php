@@ -12,7 +12,8 @@ class EditionController extends Controller
      */
     public function index()
     {
-        //
+        $editions = Edition::all();
+        return view('editions.manage', compact('editions'));
     }
 
 
@@ -22,15 +23,17 @@ class EditionController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validatedData = $request->validate([
+            'titre' => 'required|string|max:255',
+            'adresse' => 'required|string|max:255',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Edition $edition)
-    {
-        //
+        Edition::create([
+            'titre_ed' => $validatedData['titre'],
+            'adresse_ed' => $validatedData['adresse'],
+        ]);
+
+        return response()->json(['success' => 'Enregistrement effectué.']);
     }
 
     /**
@@ -38,7 +41,7 @@ class EditionController extends Controller
      */
     public function edit(Edition $edition)
     {
-        //
+        return response()->json(['edition' => $edition]);
     }
 
     /**
@@ -46,7 +49,17 @@ class EditionController extends Controller
      */
     public function update(Request $request, Edition $edition)
     {
-        //
+        $validatedData = $request->validate([
+            'titre_e' => 'required|string|max:255',
+            'adresse_e' => 'required|string|max:255',
+        ]);
+
+        $edition->update([
+            'titre_ed' => $validatedData['titre_e'],
+            'adresse_ed' => $validatedData['adresse_e'],
+        ]);
+
+        return response()->json(['success' => 'Mise à jour effectuée.']);
     }
 
     /**
@@ -54,6 +67,7 @@ class EditionController extends Controller
      */
     public function destroy(Edition $edition)
     {
-        //
+        $edition->delete();
+        return response()->json(['success' => 'Suppression effectuée.']);
     }
 }
