@@ -23,7 +23,7 @@
         <div class="col-sm-4 grid-margin">
             <div class="card">
                 <div class="card-body">
-                    <h5>NNombre total de livres achetés</h5>
+                    <h5>Nombre total de livres achetés</h5>
                     <div class="row">
                         <div class="col-8 col-sm-12 col-xl-8 my-auto">
                             <div class="d-flex d-sm-block d-md-flex align-items-center">
@@ -166,36 +166,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                                    </td>
-                                    <td> Herman Beck </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td> $ 77.99 </td>
-                                    <td> $ 77.99 </td>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-1">
-                                        <img src="../../assets/images/faces-clipart/pic-2.png" alt="image" />
-                                    </td>
-                                    <td> Messsy Adam </td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
-                                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                    <td> $245.30 </td>
-                                    <td> $245.30 </td>
-                                    <td> </td>
-                                </tr>
+                                @foreach ($purchases as $purchase)
+                                    <tr>
+                                        <td>{{ $purchase['id'] }}</td>
+                                        <td>{{ $purchase['livre'] }}</td>
+                                        <td>{{ $purchase['fournisseur'] }}</td>
+                                        <td>{{ $purchase['date_achat'] }}</td>
+                                        <td>{{ $purchase['quantite'] }} </td>
+                                        <td> </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -218,20 +198,19 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-sample">
+                            <form class="form-sample" id="store">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">LIVRE</label>
                                             <div class="col-sm-9">
-                                                <select class="js-example-basic-single" name="livre"
+                                                <select class="js-example-basic-single" id="p_l" name="livre"
                                                     style="width:100%">
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="WY">Wyoming</option>
-                                                    <option value="AM">America</option>
-                                                    <option value="CA">Canada</option>
-                                                    <option value="RU">Russia</option>
+                                                    @foreach ($books as $book)
+                                                        <option value="{{ $book['id'] }}">
+                                                            {{ $book['titre'] }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -240,13 +219,12 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">FOURNISSEUR</label>
                                             <div class="col-sm-9">
-                                                <select class="js-example-basic-single" name="fournisseur"
+                                                <select class="js-example-basic-single" id="p_c" name="fournisseur"
                                                     style="width:100%">
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="WY">Wyoming</option>
-                                                    <option value="AM">America</option>
-                                                    <option value="CA">Canada</option>
-                                                    <option value="RU">Russia</option>
+                                                    @foreach ($providers as $provider)
+                                                        <option value="{{ $provider->id }}">
+                                                            {{ $provider->nom_four }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -257,7 +235,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">DATE D'ACHAT</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" name="date_achat" />
+                                                <input class="form-control" type="date" name="date_achat" />
                                             </div>
                                         </div>
                                     </div>
@@ -265,18 +243,18 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">QUANTITE</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" name="quantite" />
+                                                <input class="form-control" type="number" name="quantite" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-inverse-success">Valider</button>
+                    <button type="submit" id="valider_store" class="btn btn-inverse-success">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -292,20 +270,21 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-sample">
+                            <form class="form-sample" id="edit">
                                 @csrf
+                                @method('PUT')
+                                <input type="hidden" id="id_edit" name="id_edit" />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">LIVRE</label>
                                             <div class="col-sm-9">
-                                                <select class="js-example-basic-single" name="livre_e"
+                                                <select class="js-example-basic-single" id="e_c" name="livre_e"
                                                     style="width:100%">
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="WY">Wyoming</option>
-                                                    <option value="AM">America</option>
-                                                    <option value="CA">Canada</option>
-                                                    <option value="RU">Russia</option>
+                                                    @foreach ($books as $book)
+                                                        <option value="{{ $book['id'] }}">
+                                                            {{ $book['titre'] }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -314,13 +293,12 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">FOURNISSEUR</label>
                                             <div class="col-sm-9">
-                                                <select class="js-example-basic-single" name="fournisseur_e"
-                                                    style="width:100%">
-                                                    <option value="AL">Alabama</option>
-                                                    <option value="WY">Wyoming</option>
-                                                    <option value="AM">America</option>
-                                                    <option value="CA">Canada</option>
-                                                    <option value="RU">Russia</option>
+                                                <select class="js-example-basic-single" id="e_l"
+                                                    name="fournisseur_e" style="width:100%">
+                                                    @foreach ($providers as $provider)
+                                                        <option value="{{ $provider->id }}">
+                                                            {{ $provider->nom_four }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -331,7 +309,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">DATE D'ACHAT</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" name="date_achat_e" />
+                                                <input class="form-control" type="date" name="date_achat_e" />
                                             </div>
                                         </div>
                                     </div>
@@ -339,18 +317,18 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">QUANTITE</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" name="quantite_e" />
+                                                <input class="form-control" type="number" name="quantite_e" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-inverse-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-inverse-primary">Valider</button>
+                    <button type="submit" id="valider_edit" class="btn btn-inverse-primary">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -359,11 +337,94 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-single').select2({
+            $('#p_l').select2({
                 dropdownParent: $('#staticBackdrop')
             });
-            $('.js-example-basic-multiple').select2({
+            $('#p_c').select2({
                 dropdownParent: $('#staticBackdrop')
+            });
+            $('#e_c').select2({
+                dropdownParent: $('#editModal')
+            });
+            $('#e_l').select2({
+                dropdownParent: $('#editModal')
+            });
+        });
+
+        $('#store').submit(function(e) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('purchases.store') }}",
+                data: $(this).serialize(),
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Enregistrement effectué."
+                    });
+                    $('select').val(null).trigger('change');
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de l'exécution",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 500
+                    });
+                },
+            });
+        });
+
+        $('#edit').submit(function(e) {
+            e.preventDefault();
+            var purchaseID = $('#id_edit').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+
+            $.ajax({
+                method: 'PUT',
+                url: '/purchases/' + purchaseID,
+                data: $(this).serialize(),
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Mise à jour effectuée."
+                    });
+                    $('select').val(null).trigger('change');
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la mise à jour",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
         });
 
@@ -375,6 +436,68 @@
                 html.push('<p><b>' + key + ':</b> ' + value + '</p>')
             })
             return html.join('')
+        }
+
+        function edit(id) {
+            $.ajax({
+                method: 'GET',
+                url: '/purchases/' + id + '/edit',
+                success: function(response) {
+                    var purchase = response.purchase;
+
+                    $('#id_edit').val(purchase.id);
+                    $('#edit select[name="livre_e"]').val(purchase.id_book).trigger('change');
+                    $('#edit select[name="fournisseur_e"]').val(purchase.id_four).trigger('change');
+                    $('#edit input[name="date_achat_e"]').val(purchase.date_achat);
+                    $('#edit input[name="quantite_e"]').val(purchase.quantite);
+
+                    $('#editModal').modal('show');
+                    //  console.log($('#id_edit').val());
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la récupération des données",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+
+        function deletePurchase(id) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+
+            $.ajax({
+                method: 'DELETE',
+                url: '/purchases/' + id,
+                success: function(response) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "Suppression effectuée."
+                    });
+                    location.reload(true);
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: "Erreur lors de la suppression",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
         }
 
         function operateFormatter(value, row, index) {
@@ -390,13 +513,12 @@
 
         window.operateEvents = {
             'click #edit': function(e, value, row, index) {
-                alert('You click like action, row: ' + JSON.stringify(row))
+                e.preventDefault();
+                edit(row.id)
             },
             'click #delete': function(e, value, row, index) {
-                $table.bootstrapTable('remove', {
-                    field: 'id',
-                    values: [row.id]
-                })
+                e.preventDefault();
+                deletePurchase(row.id)
             }
         }
 
@@ -409,7 +531,7 @@
                         field: 'id',
                         align: 'center',
                         valign: 'middle',
-                        sortable: true,
+                        visible: false,
                         //  footerFormatter: totalTextFormatter
                     },
                     {
