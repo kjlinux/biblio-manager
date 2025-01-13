@@ -114,7 +114,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('customers') }}>
+                    <a class="nav-link" href={{ route('customers.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -123,7 +123,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('borrows') }}>
+                    <a class="nav-link" href={{ route('borrows.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -132,7 +132,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('authors') }}>
+                    <a class="nav-link" href={{ route('authors.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -141,7 +141,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('classifications') }}>
+                    <a class="nav-link" href={{ route('classifications.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -151,7 +151,7 @@
                 </li>
 
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('editions') }}>>
+                    <a class="nav-link" href={{ route('editions.index') }}>>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -160,7 +160,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('providers') }}>
+                    <a class="nav-link" href={{ route('providers.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
@@ -169,7 +169,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href={{ route('purchases') }}>
+                    <a class="nav-link" href={{ route('purchases.index') }}>
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>

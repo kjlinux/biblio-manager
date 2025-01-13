@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Classification extends Model
 {
+    protected $guarded  = [];
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);

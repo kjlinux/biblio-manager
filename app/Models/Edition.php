@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Edition extends Model
 {
+    protected $guarded  = [];
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);

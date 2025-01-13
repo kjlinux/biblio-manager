@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -12,7 +13,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::get();
+        // dd($customers);
+        return view('customers.manage', compact('customers'));
     }
 
 
@@ -22,15 +25,14 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $customer = Customer::create([
+            'nom_cl' => $request->nom,
+            'prenom_cl' => $request->prenom,
+            'adresse_cl' => $request->adresse,
+            'telephone_cl' => $request->telephone
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Customer $customer)
-    {
-        //
+        return response()->json(['success' => 'Enregistrement effectué.']);
     }
 
     /**
@@ -38,7 +40,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return response()->json([
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -46,7 +50,14 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $customer->update([
+            'nom_cl' => $request->nom_e,
+            'prenom_cl' => $request->prenom_e,
+            'adresse_cl' => $request->adresse_e,
+            'telephone_cl' => $request->telephone_e
+        ]);
+
+        return response()->json(['success' => 'Mise à jour effectuée.']);
     }
 
     /**
@@ -54,6 +65,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        DB::table('book_customer')->where('id_cl', $customer->id)->delete();
+        $customer->delete();
+        return response()->json(['success' => 'Suppression effectuée.']);
     }
 }

@@ -1,9 +1,15 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BorrowController;
+use App\Http\Controllers\EditionController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ClassificationController;
 
 Route::get('/', function () {
     return view('main');
@@ -43,6 +49,12 @@ Route::get('/purchases', function () {
 
 Route::resource('books', BookController::class)->except(['create', 'show']);
 Route::resource('customers', CustomerController::class)->except(['create', 'show']);
+Route::resource('borrows', BorrowController::class)->except(['create', 'show']);
+Route::resource('authors', AuthorController::class)->except(['create', 'show']);
+Route::resource('classifications', ClassificationController::class)->except(['create', 'show']);
+Route::resource('editions', EditionController::class)->except(['create', 'show']);
+Route::resource('providers', ProviderController::class)->except(['create', 'show']);
+Route::resource('purchases', PurchaseController::class)->except(['create', 'show']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

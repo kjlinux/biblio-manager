@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Provider extends Model
 {
+    protected $guarded  = [];
     public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class)->withPivot('id_book','id_four','date_achat','quantite');
